@@ -16,9 +16,11 @@ def calculateWater(kilogram):
         print(manCalculate,"liters u should drink!")
         print("*"*30)
     elif not gender:
+
         print("Please specify your gender")
     else:
+
         print("U wrote something wrong or incomplete.")
 
-weight=int(input("Please entering ur weight(kilograms): "))
+weight=int(input("Please entering ur weight(kgs): "))
 calculateWater(weight)
