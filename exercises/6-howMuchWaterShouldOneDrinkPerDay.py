@@ -6,17 +6,12 @@ def calculateWater(kilogram):
     gender = input("Please writing ur gender? (woman/man): ").lower()
 
     if gender == "woman":
-        print("*"*30)
         print("Your gender: ",gender)
         print(womanCalculate,"liters u should drink!")
-        print("*"*30)
     elif gender == "man":
-        print("*"*30)
         print("Your gender: ",gender)
         print(manCalculate,"liters u should drink!")
-        print("*"*30)
     elif not gender:
-
         print("Please specify your gender")
     else:
 
