@@ -1,4 +1,5 @@
 import random
+import time 
 
 users = list()
 
@@ -6,6 +7,7 @@ def addUsers(x):
     print("-"*30)
     addUser = input("The user you want to add:")
     x.append(addUser)
+    input("Press enter to continue.")
 def showUsers(x):
     count = 1
     print("-"*30)
@@ -13,6 +15,7 @@ def showUsers(x):
         print(str(count)+"-User: ",i)
         count+=1
     print("-"*30)
+    input("Press enter to continue.")
 def randomPersonPick(x):
     count = 1
     print("-"*30)
@@ -21,7 +24,11 @@ def randomPersonPick(x):
     for i in chooseRandomly:
         print(str(count)+"-User: ",i)
         count+=1
+        time.sleep(1)
+        print("Another person is chosing...")
+        time.sleep(3)
     print("-"*30)
+    input("Press enter to continue.")
 def swapUsers(x):
     count = 1
     print("-"*30)
@@ -30,6 +37,7 @@ def swapUsers(x):
         print(str(count)+"-User: ",i)
         count+=1
     print("-"*30)
+    input("Press enter to continue.")
 
 while True:
     print("****Welcome****")
@@ -42,6 +50,8 @@ while True:
     elif choice == 3:
         swapUsers(users)
     elif choice == 4:
+        print("Person selection area is being calculated...")
+        time.sleep(2)
         randomPersonPick(users)
     elif choice == 5:
         break
