@@ -7,14 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-data = {
-    'Yaş': [25, 30, 45, 50, 28, 35, 40, 60],
-    'Gelir': [2000, 4000, 10000, 3000, 3500, 5000, 8000, 12000],
-    'Medeni Durum': ['Bekar', 'Evli', 'Evli', 'Bekar', 'Bekar', 'Evli', 'Evli', 'Bekar'],
-    'Meslek': ['Mühendis', 'Doktor', 'Öğretmen', 'Avukat', 'Mühendis', 'Doktor', 'Avukat', 'Öğretmen'],
-    'Eğitim Durumu': ['Lisans', 'Lisans', 'Yüksek Lisans', 'Doktora', 'Lisans', 'Lisans', 'Yüksek Lisans', 'Doktora'],
-    'Kredi Onayı': [0, 1, 1, 0, 1, 1, 1, 0]
-}
+data = pd.read_excel('genisletilmisveri.xlsx')
 
 #pandas veri çerçevesi
 df = pd.DataFrame(data)
@@ -29,15 +22,15 @@ X=df.drop('Kredi Onayı',axis=1).values
 y = df["Kredi Onayı"].values
 
 #veriyi ikiye böl test ve eğitim
-X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.3,random_state=42)
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.4,random_state=42)
 
 #model oluştur
 model = Sequential()
-model.add(Dense(10,input_dim=X.shape[1],activation='relu'))
+model.add(Dense(2,input_dim=X.shape[1],activation='relu'))
 model.add(Dense(1,activation='sigmoid'))
 
 #modeli derle ve öğrenme hızı eklemek
-optimizer = Adam(learning_rate=0.005)
+optimizer = Adam(learning_rate=0.001)
 model.compile(loss='binary_crossentropy',optimizer = optimizer,metrics =['accuracy'])
 
 #veriyi ölçeklendir
@@ -55,3 +48,30 @@ y_pred = (y_pred > 0.5).astype(int)
 #doğruluk oranını ölç
 accuracy = accuracy_score(y_test,y_pred)
 print(f"Test doğruluk oranı: {accuracy*100:.2f}%")
+
+#kullanıcıdan veri alma
+while True:
+    user_input_1=float(input('Yaşınızı giriniz: '))
+    user_input_2=float(input('Maşşınızı giriniz: '))
+    user_input_3=input('Medeni durumunuzu giriniz: ')
+    user_input_4=input('Mesleğiniz(Mühendis, Doktor, Öğretmen, Avukat) giriniz: ')
+    user_input_5=input('Eğitim durumunuzu giriniz(Lisans, Yüksek Lisans, Doktora) giriniz: ')
+
+    user_data = pd.DataFrame({
+        'Yaş':[user_input_1],
+        'Gelir':[user_input_2],
+        'Medeni Durum' + user_input_3:[1],
+        'Meslek' + user_input_4:[1],
+        'Eğitim Durumu'+user_input_5:[1]
+    })
+
+    #kredi onayı kısmını sil
+    user_Data=user_data.reindex(columns=df.drop('Kredi Onayı', axis=1).columns,fill_value=0)
+
+    #veriyi ölçeklendirelim
+    user_data_scaled = scaler.transform(user_Data)
+
+    #tahminleme
+    prediction = model.predict(user_data_scaled)
+    print(f"Tahmin sonucu: {prediction[0][0]:.4f}")
+    
